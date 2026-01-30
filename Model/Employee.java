@@ -2,7 +2,7 @@ package Model;
 
 import java.time.LocalDate;
 
-public class Employee {
+public abstract class Employee {
     private final String employeeID;
     private String EmployeeName;
     private EmployeeStatus status;
@@ -72,5 +72,5 @@ public class Employee {
                 + jobTitle + ", basicSalary=" + basicSalary + "]";
     }
     
-
+    public abstract double getOT_Salary();
 }

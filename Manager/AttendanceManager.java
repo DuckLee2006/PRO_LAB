@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import Model.AttendanceRecord;
+import Model.Employee;
 
 public class AttendanceManager {
     private Map<String, List<AttendanceRecord>> attendanceManager;
@@ -108,15 +109,27 @@ public class AttendanceManager {
     }
 
     //low attendance employees
-    public List<String> isLowAttendance(int month, int year){
-        List<String> lowId = new ArrayList<>();
-        for (String id : attendanceManager.keySet()) {
-            if(getAbsentDay(id, month, year)>=3){
-                lowId.add(id);
+    // public List<String> isLowAttendance(int month, int year){
+    //     List<String> lowId = new ArrayList<>();
+    //     for (String id : attendanceManager.keySet()) {
+    //         if(getAbsentDay(id, month, year)>=3){
+    //             lowId.add(id);
+    //         }
+    //     }
+
+    //     return lowId;
+
+    // }
+
+    public List<Employee> isLowAttendance(int month, int year){
+        List<Employee> lowEmp = new ArrayList<>();
+        for (Employee emp : employeeManager.getAllEmployee()) {
+            if(getAbsentDay(emp.getEmployeeID(), month, year)>=3){
+                lowEmp.add(emp);
             }
         }
 
-        return lowId;
+        return lowEmp;
 
     }
 

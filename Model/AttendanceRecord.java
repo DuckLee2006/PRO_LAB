@@ -27,6 +27,12 @@ public class AttendanceRecord {
     public AttendanceStatus getStatus() {
         return status;
     }
+    @Override
+    public String toString() {
+        return "AttendanceRecord [employeeID=" + employeeID + ", date=" + date + ", OT=" + OT + ", status=" + status
+                + "]";
+    }
     
 
+    
 }

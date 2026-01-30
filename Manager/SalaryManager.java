@@ -1,5 +1,6 @@
 package Manager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,31 +10,33 @@ import Model.SalaryRecord;
 
 public class SalaryManager {
     private Map<String, List<SalaryRecord>> salaryManager;
+    private AttendanceManager attendanceManager;
     //đọc ghi
     //----
     //
     //constructor
-    public SalaryManager(Map<String, List<SalaryRecord>> salaryManager) {
+    public SalaryManager(Map<String, List<SalaryRecord>> salaryManager, AttendanceManager attendanceManager) {
+        this.attendanceManager = attendanceManager;
         this.salaryManager = salaryManager;
     }
     //tính lương
-    public SalaryRecord calculateMonthSalary(Employee emp, int month, int year){
+    public boolean createMonthSalaryRecord(Employee emp, int month, int year){
         if (emp.getStatus()!=EmployeeStatus.ACTIVE) {
             System.out.println("Employee is not active!");
-            return null;
+            return false;
         }
-
-        List<SalaryRecord> listSalaryrecord = salaryManager.get(emp.getEmployeeID());
-        if (listSalaryrecord==null) {
-            System.out.println("Employees without payroll records!");
-            return null;
-        }
-        for (SalaryRecord salaryRecord : listSalaryrecord) {
-            if (salaryRecord.getMonth()==month && salaryRecord.getYear()==year) {
-                return salaryRecord;
-            }
-        }
-        return null;
+    
+        if(getSalaryByMonth(emp.getEmployeeID(), month, year)==null){
+                List<SalaryRecord> salaryRecords =
+                salaryManager.computeIfAbsent(emp.getEmployeeID(), k -> new ArrayList<>());
+                int working = attendanceManager.getWorkingDay(emp.getEmployeeID(), month, year);
+                int absent = attendanceManager.getAbsentDay(emp.getEmployeeID(), month, year);
+                int ot = attendanceManager.getOTByMonth(emp.getEmployeeID(), month, year);
+                SalaryRecord record = new SalaryRecord(emp,month,year,working,ot,absent);
+                salaryRecords.add(record);
+                return true;       
+        };
+        return false;
 
     }
 
@@ -54,11 +57,10 @@ public class SalaryManager {
     }
     //lấy bảng lương;
     public SalaryRecord getSalaryByMonth(String id, int month, int year){
-        List<SalaryRecord> list = salaryManager.get(id);
-        if (list == null) {
-            System.out.println("ID does not exist.");
-            return null;
-        }
+            List<SalaryRecord> list = salaryManager.get(id);
+            if (list==null){
+                return null;
+            };
 
         for (SalaryRecord salaryRecord : list) {
             if (salaryRecord.getMonth()==month&&salaryRecord.getYear()==year) {
@@ -66,8 +68,6 @@ public class SalaryManager {
             }
         }
         return null;
-
-   
-    
+ 
     }
 }

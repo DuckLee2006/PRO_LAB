@@ -1,5 +1,7 @@
 package Model;
 
+import java.text.DecimalFormat;
+
 public class SalaryRecord {
     private String employeeID;
     private int month;
@@ -9,14 +11,14 @@ public class SalaryRecord {
     private int absentDay;
     private double TotalSalary;
     //constructor
-    public SalaryRecord(String employeeID, int month, int year, int workingDay, int oT, int absentDay) {
-        this.employeeID = employeeID;
+    public SalaryRecord(Employee emp, int month, int year, int workingDay, int oT, int absentDay) {
+        this.employeeID = emp.getEmployeeID();
         this.month = month;
         this.year = year;
         this.workingDay = workingDay;
         OT = oT;
         this.absentDay = absentDay;
-        TotalSalary = calculateMonthSalary(workingDay, oT, absentDay);
+        TotalSalary = calculateMonthSalary(emp.getBasicSalary(),emp.getOT_Salary());
     }
     //getter
     public String getEmployeeID() {
@@ -41,10 +43,17 @@ public class SalaryRecord {
         return TotalSalary;
     }
     
-    public double calculateMonthSalary(double basicSalary, double overTimePay, double AbsenceDedution){
-        return basicSalary + (OT*overTimePay) - absentDay*AbsenceDedution;
+    public double calculateMonthSalary(double basicSalary, double overTimePay){
+        return basicSalary + (OT*overTimePay) - absentDay*100000;
+    }
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("#,###");
+        return "SalaryRecord [employeeID=" + employeeID + ", month=" + month + ", year=" + year + ", workingDay="
+                + workingDay + ", OT=" + OT + ", absentDay=" + absentDay + ", TotalSalary=" + df.format(TotalSalary) + "]";
     }
 
+    
     
 
 }
