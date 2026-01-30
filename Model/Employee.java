@@ -1,23 +1,23 @@
 package Model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Employee {
-    protected final String employeeID;;
-    protected String EmployeeName;
-    protected EmployeeStatus status;
-    protected Department department;
-    protected Date starDate;
-    protected EmployeeType type;
-    protected String jobTitle;
-    protected double basicSalary;
+    private final String employeeID;
+    private String EmployeeName;
+    private EmployeeStatus status;
+    private Department department;
+    private final LocalDate startDate;
+    private EmployeeType type;
+    private String jobTitle;
+    private double basicSalary;
     //constructor
-    public Employee(String employeeID, String employeeName, EmployeeStatus status, Department department, Date starDate, EmployeeType type, String jobTitle, double basicSalary) {
+    public Employee(String employeeID, String employeeName, EmployeeStatus status, Department department, LocalDate startDate, EmployeeType type, String jobTitle, double basicSalary) {
         this.employeeID = employeeID;
         EmployeeName = employeeName;
         this.status = status;
         this.department = department;
-        this.starDate = starDate;
+        this.startDate = startDate;
         this.type = type;
         this.jobTitle = jobTitle;
         this.basicSalary = basicSalary;
@@ -44,11 +44,8 @@ public class Employee {
     public void setDepartment(Department department) {
         this.department = department;
     }
-    public Date getStarDate() {
-        return starDate;
-    }
-    public void setStarDate(Date starDate) {
-        this.starDate = starDate;
+    public LocalDate getStartDate() {
+        return startDate;
     }
     public EmployeeType getType() {
         return type;
@@ -67,6 +64,12 @@ public class Employee {
     }
     public void setBasicSalary(double basicSalary) {
         this.basicSalary = basicSalary;
+    }
+    @Override
+    public String toString() {
+        return "Employee [employeeID=" + employeeID + ", EmployeeName=" + EmployeeName + ", status=" + status
+                + ", department=" + department + ", startDate=" + startDate + ", type=" + type + ", jobTitle="
+                + jobTitle + ", basicSalary=" + basicSalary + "]";
     }
     
 

@@ -1,35 +1,44 @@
 package UserInterface;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import Manager.EmployeeManager;
 import Model.Department;
 import Model.Employee;
 import Model.EmployeeStatus;
-import Model.EmployeeType;
+import Model.FullTimeEmployee;
 import Model.PartTimeEmployee;
-import java.util.Date;
-
 
 public class main {
     public static void main(String[] args) {
-       Date date = null;
-    try {
-        date = new SimpleDateFormat("dd/MM/yyyy").parse("12/12/2012");
-    } catch (ParseException e) {
-        e.printStackTrace();
+        
+   
+    Employee emp1 = new PartTimeEmployee("1111", "hoàng", EmployeeStatus.ACTIVE,Department.HR, LocalDate.of(2025, 1, 1), "làm hr", 12000000) ;
+    Employee emp2 = new PartTimeEmployee("2222", "long", EmployeeStatus.RETIRED,Department.HR, LocalDate.of(2025, 1, 2), "làm hr 2", 12000000) ;
+    Employee emp3 = new FullTimeEmployee("333", "hoàng", EmployeeStatus.ACTIVE,Department.HR, LocalDate.of(2025, 1, 1), "làm hr", 12000000) ;
+    Map<String, Employee> comp = new HashMap<>();
+    EmployeeManager employeeManager = new EmployeeManager(comp);
+    employeeManager.addEmployee(emp1);
+    employeeManager.addEmployee(emp2);
+    employeeManager.addEmployee(emp3);
+    System.out.println("add");
+    List<Employee> emplist = employeeManager.getAllEmployee();
+    for (Employee employee : emplist) {
+        System.out.println(employee);
     }
-        Employee emp = new PartTimeEmployee("01", "nam", EmployeeStatus.ACTIVE, Department.IT, date, "Developer", 3000000.0);
-    
-        System.out.println("Employee ID: " + emp.getEmployeeID());
-        System.out.println("Employee Name: " + emp.getEmployeeName());
-        System.out.println("Employee Status: " + emp.getStatus());
-        System.out.println("Employee Department: " + emp.getDepartment());
-        System.out.println("Employee Start Date: " + emp.getStarDate());
-        System.out.println("Employee Type: " + emp.getType());
-        System.out.println("Employee Job Title: " + emp.getJobTitle());
-        System.out.println("Employee Basic Salary: " + emp.getBasicSalary());
-        System.out.println("Employee OT Salary: " + ((PartTimeEmployee) emp).getOT_Salary());
-        System.out.println("Department Code: " + emp.getDepartment().getCode());
-    
+    System.out.println();
+
+    //update
+    System.out.println("update");
+    Employee emptest = new FullTimeEmployee("333", "hoàng test", EmployeeStatus.ACTIVE,Department.HR, LocalDate.of(2025, 1, 1), "làm hr", 13000000) ;
+    boolean update = employeeManager.updateEmployee(emptest);
+    for (Employee employee : emplist) {
+        System.out.println(employee);
     }
+
+
+ }
 }

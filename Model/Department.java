@@ -15,4 +15,5 @@ public enum Department {
     public String getCode() {
         return code;
     }
+    
 }
